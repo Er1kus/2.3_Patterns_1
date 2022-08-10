@@ -34,6 +34,18 @@ public class DataGenerator {
         return (randomElement);
     }
 
+    public static String generateInvalidCity(String locale) {
+        var random = new SecureRandom();
+        var list = Arrays.asList("Гатчина", "Пушкин", "Сестрорецк", "Дели", "Брисбен", "Белу-Оризонти", "Гвадалахара", "Лиссабон", "Хараре", "Диксон");
+        var randomElement = list.get(random.nextInt(list.size()));
+        return (randomElement);
+    }
+
+    public static String generateInvalidEngCity(String locale) {
+        Faker faker = new Faker(new Locale(locale));
+        return faker.address().cityName();
+    }
+
     public static String generateName(String locale) {
         Faker faker = new Faker(new Locale(locale));
         return faker.name().fullName();
@@ -51,13 +63,21 @@ public class DataGenerator {
         public static UserInfo generateUser(String locale) {
             return new UserInfo(generateCity(locale), generateName(locale), generatePhone(locale));
         }
-    }
 
-    @Value
-    public static class UserInfo {
-        String city;
-        String name;
-        String phone;
+        public static UserInfo generateInvalidUser(String locale) {
+            return new UserInfo(generateInvalidCity(locale), generateName(locale), generatePhone(locale));
+        }
+
+        public static UserInfo generateUserByFaker(String locale) {
+            return new UserInfo(generateInvalidEngCity(locale), generateName(locale), generatePhone(locale));
+        }
+
+        @Value
+        public static class UserInfo {
+            String city;
+            String name;
+            String phone;
+        }
     }
 }
 
